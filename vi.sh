@@ -41,8 +41,13 @@ function move_down() {
 
 function newline_insert() {
   BEFORE_TEXT="${READLINE_LINE:0:$READLINE_POINT}"
-  AFTER_TEXT="${READLINE_LINE:$READLINE_POINT:$((${#READLINE_LINE} - $READLINE_POINT))}"
-  READLINE_LINE=$(echo -e "$BEFORE_TEXT"; echo -e "$AFTER_TEXT")
+  if [[ $READLINE_POINT -eq ${#READLINE_LINE} ]]; then
+    AFTER_TEXT="\n\x04"
+    READLINE_LINE=$(echo -en "$BEFORE_TEXT"; echo -en "$AFTER_TEXT")
+  else
+    AFTER_TEXT="${READLINE_LINE:$READLINE_POINT:$((${#READLINE_LINE} - $READLINE_POINT))}"
+    READLINE_LINE=$(echo -e "$BEFORE_TEXT"; echo -en "$AFTER_TEXT")
+  fi
   let "READLINE_POINT += 1"
 }
 
