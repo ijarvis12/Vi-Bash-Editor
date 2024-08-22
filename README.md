@@ -6,4 +6,8 @@ Vi Terminal Text Editor Written in GNU Bash
 
 
 
-Known bug: Text files larger than terminal screen don't work
+Known bugs:
+
+Text files larger than terminal screen don't work well
+
+Return key doesn't insert at EOF
