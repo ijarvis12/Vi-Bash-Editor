@@ -29,7 +29,7 @@ function move_up() {
       let "i += 1"
     done
     let "TOP_ROW -= 1"
-    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}")
+    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}" | sed 's/ //')
   fi
 
   # Go back maybe same amount as original line
@@ -58,7 +58,7 @@ function move_down() {
       let "i += 1"
     done
     let "TOP_ROW += 1"
-    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}")
+    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}" | sed 's/ //')
     let "READLINE_POINT = ${#READLINE_LINE}"
   elif [[ $TOP_ROW -gt $LINES && $(($TOP_ROW - $LINES)) -lt ${#gettext[@]} ]]; then
     let "i = $TOP_ROW"
@@ -67,7 +67,7 @@ function move_down() {
       let "i += 1"
     done
     let "TOP_ROW += 1"
-    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}")
+    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}" | sed 's/ //')
     let "READLINE_POINT = ${#READLINE_LINE}"
   fi
 
@@ -92,7 +92,7 @@ function newline_insert() {
     let "TOP_ROW += 1"
     GLINE=$(echo "${READLINE_LINE:0:$READLINE_POINT}" | tail -n 1)
     let "READLINE_POINT -= ${#GLINE}"
-    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}")
+    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}" | sed 's/ //')
   fi
   BEFORE_TEXT="${READLINE_LINE:0:$READLINE_POINT}"
   if [[ $READLINE_POINT -eq ${#READLINE_LINE} ]]; then
@@ -102,7 +102,9 @@ function newline_insert() {
     AFTER_TEXT="${READLINE_LINE:$READLINE_POINT:$((${#READLINE_LINE} - $READLINE_POINT))}"
     READLINE_LINE=$(echo -e "$BEFORE_TEXT"; echo -en "$AFTER_TEXT")
   fi
-  let "READLINE_POINT += 1"
+  if [[ $total_lines -ne $LINES ]]; then
+    let "READLINE_POINT += 1"
+  fi
 }
 
 bind -m 'vi-insert' -x '"\e[A":move_up'
@@ -111,8 +113,8 @@ bind -m 'vi-move' -x '"k":move_up'
 bind -m 'vi-move' -x '"j":move_down'
 bind -m 'vi-insert' -x '"\r":newline_insert'
 
-read -er -i "$(echo -e ${gettext[@]:$TOP_ROW:$LINES})" _
+read -er -i "$(echo -e ${gettext[@]:$TOP_ROW:$LINES} | sed 's/ //')" _
 
 if [[ -n "$GFILE" ]]; then
-  echo -e "${gettext[@]}" > "$GFILE"
+  echo -e "${gettext[@]}" | sed 's/ //' > "$GFILE"
 fi
