@@ -9,5 +9,3 @@ Vi Terminal Text Editor Written in GNU Bash
 Known bugs:
 
 Text files larger than terminal screen don't work well
-
-Extra spaces are injected on screen at first display
