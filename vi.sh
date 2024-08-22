@@ -2,6 +2,17 @@
 
 set -o vi
 
+IFS='\n\t '
+
+GFILE="$1"
+
+TOP_ROW=0
+
+declare -a gettext
+if [[ -n "$GFILE" && -e "$GFILE" ]]; then
+  mapfile gettext < "$GFILE"
+fi
+
 function move_up() {
   # Go back to beginning of line
   GLINE=$(echo "${READLINE_LINE:0:$READLINE_POINT}" | tail -n 1)
@@ -9,7 +20,17 @@ function move_up() {
   let "READLINE_POINT -= $index"
 
   # Go back to end of previous line (maybe)
-  if [[ $READLINE_POINT -gt 0 ]]; then let "READLINE_POINT -= 1"; fi
+  if [[ $READLINE_POINT -gt 0 ]]; then
+    let "READLINE_POINT -= 1"
+  elif [[ $TOP_ROW -gt 0 ]]; then
+    let "i = $TOP_ROW"
+    for line in "$READLINE_LINE"; do
+      gettext[$i]="$line"
+      let "i += 1"
+    done
+    let "TOP_ROW -= 1"
+    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}")
+  fi
 
   # Go back maybe same amount as original line
   GLINE=$(echo "${READLINE_LINE:0:$READLINE_POINT}" | tail -n 1)
@@ -28,7 +49,27 @@ function move_down() {
   let "READLINE_POINT += ${#GLINE}"
 
   # Go to next line (maybe)
-  if [[ $READLINE_POINT -lt ${#READLINE_LINE} ]]; then let "READLINE_POINT += 1"; fi
+  if [[ $READLINE_POINT -lt ${#READLINE_LINE} ]]; then
+    let "READLINE_POINT += 1"
+  elif [[ $LINES -ge $TOP_ROW && $(($LINES - $TOP_ROW)) -lt ${#gettext[@]} ]]; then
+    let "i = $TOP_ROW"
+    for line in "$READLINE_LINE"; do
+      gettext[$i]="$line"
+      let "i += 1"
+    done
+    let "TOP_ROW += 1"
+    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}")
+    let "READLINE_POINT = ${#READLINE_LINE}"
+  elif [[ $TOP_ROW -gt $LINES && $(($TOP_ROW - $LINES)) -lt ${#gettext[@]} ]]; then
+    let "i = $TOP_ROW"
+    for line in "$READLINE_LINE"; do
+      gettext[$i]="$line"
+      let "i += 1"
+    done
+    let "TOP_ROW += 1"
+    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}")
+    let "READLINE_POINT = ${#READLINE_LINE}"
+  fi
 
   # Go to same amount as original line
   GLINE=$(echo "${READLINE_LINE:$READLINE_POINT:${#READLINE_LINE}}" | head -n 1)
@@ -40,6 +81,19 @@ function move_down() {
 }
 
 function newline_insert() {
+  let "total_lines = 0"
+  let "i = $TOP_ROW"
+  for line in "$READLINE_LINE"; do
+    let "total_lines += 1"
+    gettext[$i]="$line"
+    let "i += 1"
+  done
+  if [[ $total_lines -eq $LINES ]]; then
+    let "TOP_ROW += 1"
+    GLINE=$(echo "${READLINE_LINE:0:$READLINE_POINT}" | tail -n 1)
+    let "READLINE_POINT -= ${#GLINE}"
+    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}")
+  fi
   BEFORE_TEXT="${READLINE_LINE:0:$READLINE_POINT}"
   if [[ $READLINE_POINT -eq ${#READLINE_LINE} ]]; then
     AFTER_TEXT="\n\x04"
@@ -57,6 +111,8 @@ bind -m 'vi-move' -x '"k":move_up'
 bind -m 'vi-move' -x '"j":move_down'
 bind -m 'vi-insert' -x '"\r":newline_insert'
 
-read -e -i "$(if [[ -n $1 && -e $1 ]]; then cat $1; fi)" -r gettext
+read -er -i "$(echo -e ${gettext[@]:$TOP_ROW:$LINES})" _
 
-if [[ -n "$1" ]]; then echo "$gettext" > "$1"; fi
+if [[ -n "$GFILE" ]]; then
+  echo -e "${gettext[@]}" > "$GFILE"
+fi
