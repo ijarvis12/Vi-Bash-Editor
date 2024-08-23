@@ -6,12 +6,15 @@ IFS='\n\t '
 
 GFILE="$1"
 
-TOP_ROW=0
+TOP_ROW=1
 
-declare -a gettext
+gettext=("")
 if [[ -n "$GFILE" && -e "$GFILE" ]]; then
-  mapfile gettext < "$GFILE"
+  mapfile -O 1 gettext < "$GFILE"
 fi
+# Quirk of mapfile, "${gettext[@]}" adds a space at beginning except
+#  first (non-null) item which we deal with sed calls later
+gettext[1]=" ${gettext[1]}"
 
 function move_up() {
   # Go back to beginning of line
@@ -28,8 +31,15 @@ function move_up() {
       gettext[$i]="$line"
       let "i += 1"
     done
+    PREV_LEN=$(echo -en "${READLINE_LINE:0$READLINE_POINT}" | tail -n 1 | wc -m)
     let "TOP_ROW -= 1"
-    READLINE_LINE=$(echo -e "${gettext[@]:$TOP_ROW:$LINES}" | sed 's/ //')
+    READLINE_LINE=$(echo -en "${gettext[@]:$TOP_ROW:$LINES}" | sed 's/ //')
+    NOW_LEN=$(echo -en "${READLINE_LINE:0:$READLINE_POINT}" | tail -n 1 | wc -m)
+    if [[ $NOW_LEN -ge $PREV_LEN ]]; then
+      let "READLINE_POINT -= $NOW_LEN - $PREV_LEN"
+    else
+      let "READLINE_POINT += $PREV_LEN - $NOW_LEN"
+    fi
   fi
 
   # Go back maybe same amount as original line
