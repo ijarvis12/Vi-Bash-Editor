@@ -2,8 +2,6 @@
 
 set -o vi
 
-IFS='\n\t '
-
 GFILE="$1"
 
 bind -m vi-insert '"\e[A":previous-screen-line'
