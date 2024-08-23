@@ -8,7 +8,8 @@ bind -m vi-insert '"\e[A":previous-screen-line'
 bind -m vi-insert '"\e[B":next-screen-line'
 bind -m vi-move '"k":previous-screen-line'
 bind -m vi-move '"j":next-screen-line'
-bind -m vi-insert '"\r":self-insert'
+bind -m vi-insert '"\n":self-insert'
+bind -m vi-insert '"\r":"\n"'
 bind -m vi-insert '"\t":self-insert'
 
 INS_TEXT=$(if [[ -n "$GFILE" && -e "$GFILE" ]]; then cat "$GFILE"; else echo; fi)
@@ -17,4 +18,4 @@ read -er -i "$INS_TEXT" gettext
 
 if [[ -z "$GFILE" ]]; then read -er -p "Save as: " GFILE; fi
 
-if [[ -n "$GFILE" ]]; then echo -e "$gettext" > "$GFILE"; fi
+if [[ -n "$GFILE" ]]; then echo "$gettext" > "$GFILE"; fi
