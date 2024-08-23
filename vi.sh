@@ -2,7 +2,7 @@
 
 set -o vi
 
-GFILE="$1"
+GFILE="$@"
 
 bind -m vi-insert '"\e[A":previous-screen-line'
 bind -m vi-insert '"\e[B":next-screen-line'
@@ -11,7 +11,7 @@ bind -m vi-move '"j":next-screen-line'
 bind -m vi-insert '"\r":self-insert'
 bind -m vi-insert '"\t":self-insert'
 
-INS_TEXT=$(if [[ -n "$GFILE" ]]; then cat "$GFILE"; else echo; fi)
+INS_TEXT=$(if [[ -n "$GFILE" && -e "$GFILE" ]]; then cat "$GFILE"; else echo; fi)
 
 read -er -i "$INS_TEXT" gettext
 
