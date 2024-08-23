@@ -15,6 +15,10 @@ bind -m 'vi-insert' '"\t":self-insert'
 
 read -er -i "$(cat $GFILE)" gettext
 
+if [[ -z "$GFILE" ]]; then
+  read -er -p "Save as: " GFILE
+fi
+
 if [[ -n "$GFILE" ]]; then
   echo -e "$gettext" > "$GFILE"
 fi
