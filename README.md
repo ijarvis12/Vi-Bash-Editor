@@ -9,3 +9,5 @@ Vi Terminal Text Editor Written in GNU Bash
 **Known bugs** (mostly the result of GNU readline behavior):
 
 Text files larger than the terminal screen don't work well
+
+'\r' insert doesn't work, but newline (Ctrl-j) does interestingly
