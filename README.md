@@ -8,4 +8,4 @@ Vi Terminal Text Editor Written in GNU Bash
 
 **Known bugs** (mostly the result of GNU readline behavior):
 
-Text files larger than terminal screen don't work well
+Text files larger than the terminal screen don't work well
