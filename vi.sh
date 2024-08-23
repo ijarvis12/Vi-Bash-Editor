@@ -12,9 +12,9 @@ bind -m vi-insert '"\n":self-insert'
 bind -m vi-insert '"\r":"\n"'
 bind -m vi-insert '"\t":self-insert'
 
-INS_TEXT=$(if [[ -n "$GFILE" && -e "$GFILE" ]]; then cat "$GFILE"; else echo; fi)
+INS_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; else echo; fi)"
 
-read -er -i "$INS_TEXT" gettext
+read -er -d $'^D' -i "$INS_TEXT" gettext
 
 if [[ -z "$GFILE" ]]; then read -er -p "Save as: " GFILE; fi
 
