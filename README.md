@@ -9,5 +9,3 @@ Vi Terminal Text Editor Written in GNU Bash
 **Known bugs** (mostly the result of GNU readline behavior):
 
 Text files larger than terminal screen don't work well
-
-Only the first line is saved
