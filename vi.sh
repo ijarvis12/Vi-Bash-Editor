@@ -5,7 +5,6 @@ set -o vi
 GFILE="$@"
 
 bind "set editing-mode vi"
-bind "set keymap vi"
 bind "set horizontal-scroll-mode ON"
 bind "set blink-matching-paren ON"
 bind -m vi-insert '"\e[A":previous-screen-line'
@@ -18,7 +17,10 @@ bind -m vi-insert '"\t":self-insert'
 
 INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; else echo; fi)"
 
-read -er -d $'\04' -i "$INSERT_TEXT" gettext
+IFS= read -r -d $'\04' -i "$INSERT_TEXT" gettext
+
+bind -m vi-insert '"\n":accept-line'
+bind -m vi-insert '"\r":accept-line'
 
 if [[ -z "$GFILE" ]]; then read -er -p "Save as: " GFILE; fi
 
