@@ -17,7 +17,9 @@ bind -m vi-insert '"\t":self-insert'
 
 INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; else echo; fi)"
 
-IFS= read -r -d $'\04' -i "$INSERT_TEXT" gettext
+IFS=
+
+read -r -d $'\04' -i "$INSERT_TEXT" gettext
 
 bind -m vi-insert '"\n":accept-line'
 bind -m vi-insert '"\r":accept-line'
