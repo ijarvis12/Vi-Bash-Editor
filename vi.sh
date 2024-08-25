@@ -4,7 +4,6 @@ set -o vi
 
 GFILE="$@"
 
-bind "set editing-mode vi"
 bind "set horizontal-scroll-mode ON"
 bind "set blink-matching-paren ON"
 bind -m vi-insert '"\e[A":previous-screen-line'
