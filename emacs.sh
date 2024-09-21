@@ -10,7 +10,7 @@ bind -m emacs '"\e[A":previous-screen-line'
 bind -m emacs '"\e[B":next-screen-line'
 bind -m emacs '"\n":self-insert'
 bind -m emacs '"\r":"\n"'
-bind -m emacs '"\t":self-insert'
+bind -m emacs '"\t":tab-insert'
 
 INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; else echo; fi)"
 
