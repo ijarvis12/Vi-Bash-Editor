@@ -10,11 +10,15 @@ bind -m vi-insert '"\e[A":previous-screen-line'
 bind -m vi-insert '"\e[B":next-screen-line'
 bind -m vi-move '"k":previous-screen-line'
 bind -m vi-move '"j":next-screen-line'
+bind -m vi-move '"\n":next-screen-line'
+bind -m vi-move '"\r":next-screen-line'
+bind -m vi-move '"o":"i\n"'
+bind -m vi-move '"O":"I\n"'
 bind -m vi-insert '"\n":self-insert'
 bind -m vi-insert '"\r":"\n"'
-bind -m vi-insert '"\t":self-insert'
+bind -m vi-insert '"\t":tab-insert'
 
-INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; else echo; fi)"
+INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; fi)"
 
 IFS=
 
