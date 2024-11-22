@@ -11,6 +11,7 @@ bind -m emacs '"\e[B":next-screen-line'
 bind -m emacs '"\n":self-insert'
 bind -m emacs '"\r":"\n"'
 bind -m emacs '"\t":tab-insert'
+bind -m emacs '"\C-d":accept-line'
 
 INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; else echo; fi)"
 
