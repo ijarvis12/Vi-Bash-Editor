@@ -22,11 +22,11 @@ INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; fi)"
 
 IFS=
 
-read -er -d $'\04' -i "$INSERT_TEXT" gettext
+read -er -i "$INSERT_TEXT" gettext
 
 bind -m vi-insert '"\n":accept-line'
 bind -m vi-insert '"\r":accept-line'
 
 if [[ -z "$GFILE" ]]; then read -er -p "Save as: " GFILE; fi
 
-if [[ -n "$GFILE" ]]; then echo "$gettext" > "$GFILE"; fi
+if [[ -n "$GFILE" ]]; then printf "$gettext" > "$GFILE"; fi
