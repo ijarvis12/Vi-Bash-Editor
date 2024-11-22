@@ -16,11 +16,10 @@ INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; else echo; fi)"
 
 IFS=
 
-read -er -d $'\04' -i "$INSERT_TEXT" gettext
+read -er -i "$INSERT_TEXT" gettext
 
 bind -m emacs '"\n":accept-line'
-bind -m emacs '"\r":accept-line'
 
 if [[ -z "$GFILE" ]]; then read -er -p "Save as: " GFILE; fi
 
-if [[ -n "$GFILE" ]]; then echo "$gettext" > "$GFILE"; fi
+if [[ -n "$GFILE" ]]; then printf "$gettext" > "$GFILE"; fi
