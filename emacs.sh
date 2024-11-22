@@ -4,8 +4,8 @@ set -o emacs
 
 GFILE="$@"
 
-bind "set horizontal-scroll-mode ON"
 bind "set blink-matching-paren ON"
+bind "set horizontal-scroll-mode ON"
 bind -m emacs '"\e[A":previous-screen-line'
 bind -m emacs '"\e[B":next-screen-line'
 bind -m emacs '"\n":self-insert'
