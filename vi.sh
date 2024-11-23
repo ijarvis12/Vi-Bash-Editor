@@ -22,7 +22,7 @@ INSERT_TEXT=$(if [[ -n "$GFILE" && -e "$GFILE" ]]; then cat "$GFILE"; fi)
 
 IFS=
 
-read -e -i "$INSERT_TEXT" GETTEXT
+read -er -i "$INSERT_TEXT" GETTEXT
 
 bind -m vi-insert '"\n":accept-line'
 bind -m vi-insert '"\r":accept-line'
