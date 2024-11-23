@@ -17,7 +17,7 @@ INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; else echo; fi)"
 
 IFS=
 
-read -e -i "$INSERT_TEXT"
+read -er -i "$INSERT_TEXT"
 
 bind -m emacs '"\n":accept-line'
 
