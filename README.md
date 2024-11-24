@@ -14,7 +14,7 @@ Vi Terminal Text Editor Written in GNU Bash
 
 **Features I will NOT implement** (because of Unix functionality and philosophy)
 
-- Multiple windows (use a terminal multiplexer like GNU Screen, tmux, or Zellij)
+- Multiple windows (instead use a terminal multiplexer like GNU Screen, tmux, or Zellij)
 
 - Regex (use sed or awk)
 
