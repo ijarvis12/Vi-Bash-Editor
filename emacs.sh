@@ -22,7 +22,7 @@ INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; fi)"
 
 IFS=
 
-read -er -i "$INSERT_TEXT"
+read -er -i "$INSERT_TEXT" GETTEXT
 
 bind -m emacs '"\n":accept-line'
 bind -m emacs '"\r":accept-line'
@@ -33,7 +33,7 @@ if [[ -z "$GFILE" ]]; then
   read -er -p "Save as: " GFILE
 fi
 
-if [[ -n "$GFILE" ]]; then printf "$REPLY" > "$GFILE"; fi
+if [[ -n "$GFILE" ]]; then printf "$GETTEXT" > "$GFILE"; fi
 
 # disable alt buffer screen
 printf "\e[?1049l"
