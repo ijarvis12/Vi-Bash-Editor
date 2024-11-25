@@ -5,7 +5,7 @@ set -o vi
 GFILE="$@"
 
 bind "set blink-matching-paren ON"
-bind "set horizontal-scroll-mode ON"
+bind "set horizontal-scroll-mode OFF"
 bind -m vi-insert '"\e[A":previous-screen-line'
 bind -m vi-insert '"\e[B":next-screen-line'
 bind -m vi-move '"k":previous-screen-line'
