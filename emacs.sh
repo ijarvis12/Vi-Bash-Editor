@@ -28,7 +28,7 @@ bind -m emacs '"\n":accept-line'
 bind -m emacs '"\r":accept-line'
 
 if [[ -z "$GFILE" ]]; then
-  # place curosr at bottom
+  # place cursor at bottom
   printf "\e[$LINES;0H"
   read -er -p "Save as: " GFILE
 fi
