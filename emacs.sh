@@ -15,9 +15,6 @@ bind -m emacs '"\r":"\n"'
 bind -m emacs '"\t":tab-insert'
 bind -m emacs-ctlx '"s":accept-line'
 
-# enable alt buffer screen and place cursor at top
-printf "\e[?1049h\e[H"
-
 INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; fi)"
 
 IFS=
@@ -27,13 +24,6 @@ read -er -i "$INSERT_TEXT" GETTEXT
 bind -m emacs '"\n":accept-line'
 bind -m emacs '"\r":accept-line'
 
-if [[ -z "$GFILE" ]]; then
-  # place cursor at bottom
-  printf "\e[$LINES;0H"
-  read -er -p "Save as: " GFILE
-fi
+if [[ -z "$GFILE" ]]; then read -er -p "Save as: " GFILE; fi
 
 if [[ -n "$GFILE" ]]; then printf "$GETTEXT" > "$GFILE"; fi
-
-# disable alt buffer screen
-printf "\e[?1049l"
