@@ -20,7 +20,7 @@ Vi Terminal Text Editor Written in GNU Bash
 
 - Word search (GNU Readline has builtin character search, if you need word search use grep)
 
-**Features I will plan on implementing**
+**Features I might implement**
 
 - Syntax highlighting
 
