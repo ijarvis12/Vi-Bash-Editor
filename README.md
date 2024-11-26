@@ -12,7 +12,6 @@ Vi Terminal Text Editor Written in GNU Bash
 
 - When horizontal-scroll-mode is set to ON, newline characters are printed as control character (^J) instead of inserting a newline
 
-- Only the first line saves (darn it GNU Readline!)
 
 **Features I will NOT implement** (because of Unix functionality and philosophy)
 
@@ -21,6 +20,7 @@ Vi Terminal Text Editor Written in GNU Bash
 - Regex (use sed or awk)
 
 - Word search (GNU Readline has builtin character search, if you need word search use grep)
+
 
 **Features I might implement** (if I ever learn advanced awk)
 
