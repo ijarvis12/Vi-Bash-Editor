@@ -14,7 +14,16 @@ bind -m vi-move '"\n":next-screen-line'
 bind -m vi-move '"\r":next-screen-line'
 bind -m vi-move '"o":"i\n"'
 bind -m vi-move '"O":"I\n"'
-bind -m vi-insert '"\n":self-insert'
+
+GETTEXT=
+
+newline-insert() {
+  READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}"$'\n'"${READLINE_LINE:$READLINE_POINT:${#READLINE_LINE} - $READLINE_POINT}"
+  READLINE_POINT+=1
+  GETTEXT="$READLINE_LINE"
+}
+
+bind -m vi-insert -x '"\n":newline-insert'
 bind -m vi-insert '"\r":"\n"'
 bind -m vi-insert '"\t":tab-insert'
 
@@ -22,10 +31,9 @@ INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; fi)"
 
 IFS=
 
-read -er -i "$INSERT_TEXT" GETTEXT
+read -er -i "$INSERT_TEXT"
 
 bind -m vi-insert '"\n":accept-line'
-bind -m vi-insert '"\r":accept-line'
 
 if [[ -z "$GFILE" ]]; then read -er -p "Save as: " GFILE; fi
 
