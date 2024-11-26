@@ -12,6 +12,8 @@ Vi Terminal Text Editor Written in GNU Bash
 
 - When horizontal-scroll-mode is set to ON, newline characters are printed as control character (^J) instead of inserting a newline
 
+- Only the first line saves (darn it GNU Readline!)
+
 **Features I will NOT implement** (because of Unix functionality and philosophy)
 
 - Multiple windows (instead use a terminal multiplexer like GNU Screen, tmux, or Zellij)
