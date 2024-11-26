@@ -24,7 +24,7 @@ bind -m emacs '"\r":"\n"'
 bind -m emacs '"\t":tab-insert'
 bind -m emacs-ctlx '"s":accept-line'
 
-INSERT_TEXT="$(if [[ -n $GFILE && -e $GFILE ]]; then cat $GFILE; fi)"
+INSERT_TEXT=$(if [[ -n "$GFILE" && -e "$GFILE" ]]; then cat "$GFILE"; fi)
 
 IFS=
 
