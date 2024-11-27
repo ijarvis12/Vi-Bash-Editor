@@ -27,7 +27,7 @@ bind -m vi-insert -x '"\n":newline-insert'
 bind -m vi-insert '"\r":"\n"'
 bind -m vi-insert '"\t":tab-insert'
 
-INSERT_TEXT=$(if [[ -n "$GFILE" && -e "$GFILE" ]]; then cat "$GFILE"; fi)
+if [[ -n "$GFILE" && -e "$GFILE" ]]; then INSERT_TEXT=$(<"$GFILE"); else INSERT_TEXT=""; fi
 
 IFS=
 
