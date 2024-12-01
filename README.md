@@ -2,10 +2,6 @@
 Vi Terminal Text Editor Written in GNU Bash
 
 
-***Work in progress***
-
-
-
 **Known bugs** (mostly the result of GNU Readline behavior):
 
 - Text files larger than the terminal screen don't work well
@@ -20,7 +16,6 @@ Vi Terminal Text Editor Written in GNU Bash
 - Regex (use sed or awk)
 
 - Word search (GNU Readline has builtin character search, if you need word search use grep)
-
 
 
 **Features I will probably NOT implement** (because of GNU Readline functionality)
